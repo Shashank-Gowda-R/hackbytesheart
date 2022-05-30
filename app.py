@@ -1,12 +1,10 @@
-import webbrowser
+
 from flask import Flask, render_template, url_for, flash, redirect
 import joblib
 from flask import request
 import numpy as np
-from flask_ngrok import run_with_ngrok
 
 app = Flask(__name__, template_folder='templates')
-run_with_ngrok(app)
 @app.route("/")
 
 @app.route("/Heart")
@@ -16,7 +14,7 @@ def cancer():
 def ValuePredictor(to_predict_list, size):
     to_predict = np.array(to_predict_list).reshape(1,size)
     if(size==7):
-        loaded_model = joblib.load(r'C:\Users\SHASHANK GOWDA R\OneDrive\Desktop\global\Health-App-main\Health-App-main\Heart_API\heart_model.pkl')
+        loaded_model = joblib.load(r'heart_model.pkl')
         result = loaded_model.predict(to_predict)
     return result[0]
 
@@ -37,5 +35,4 @@ def predict():
     return(render_template("result.html", prediction_text=prediction))       
 
 if __name__ == "__main__":
-    webbrowser.open_new('http://127.0.0.1:5000/')
-    app.run()
+    app.run(debug=False)
